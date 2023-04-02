@@ -58,10 +58,6 @@ window.onload = () => {
     board.width  = boardWidth;
     board.height = boardHeight;
     context = board.getContext("2d"); // use for paint the board
-    
-    // initial ship
-    // context.fillStyle = "green";
-    // context.fillRect(ship.x, ship.y, ship.width, ship.height);
 
     // Load images
     shipImg = new Image();
@@ -70,12 +66,6 @@ window.onload = () => {
         context.drawImage(shipImg, ship.x, ship.y, ship.width, ship.height);
     };
 
-    alienImg  = new Image();
-    let i = (Math.floor(Math.random() * 4));
-    alienImg.src = "./img/" + alienVista[i];
-
-
-    
     createAliens();
 
     requestAnimationFrame(update);
@@ -109,7 +99,7 @@ function update() {
                     alien2.y += alienHeight;
                 });
             }
-            context.drawImage(alienImg, alien.x, alien.y, alien.width, alien.height);
+            context.drawImage(alien.img, alien.x, alien.y, alien.width, alien.height);
             if (alien.y >= ship.y){
                 gameOver = true;
             }
@@ -169,8 +159,17 @@ function moveShip(e) {
 
 function createAliens() {
 
+    alienImg  = new Image();
+
     for (let c = 0; c < alienColumns; c++){
         for (let r = 0; r < alienRows; r++){
+
+            let i;
+            do {
+                i = (Math.floor(Math.random() * 4));
+            } while (alienImg.src == ("./img/" + alienVista[i]));
+
+            alienImg.src = "./img/" + alienVista[i];
 
             let alien = {
                 img: alienImg,
